@@ -6,7 +6,7 @@ allData = pd.read_excel("AllData.xlsx", na_values="")
 crimesTransposed = pd.read_csv("CrimesTransposed.csv", na_values="")
 crime14 = pd.read_csv("2014.csv", na_values="")
 crime14NotPerCap = pd.read_csv("2014(notPerCapita).csv", na_values="")
-crime14EmpCatergorial = pd.read_csv("crime14EmpCat..csv", na_values="")
+crime14EmpCategorial = pd.read_csv("crime14EmpCat.csv", na_values="")
 crime14CrimeCat = pd.read_csv("crime14CrimeCat.csv", na_values="")
 
 # COUNTIES (excluding National)
@@ -40,6 +40,7 @@ TheftTotals15 = allData.iloc[50:70, 61]
 BurglaryTotals = [BurglaryTotals14, BurglaryTotals15]
 RobberyTotals = [RobberyTotals14, RobberyTotals15]
 TheftTotals = [TheftTotals14, TheftTotals15]
+
 
 # Income
 income14 = crime14.iloc[:, 3]

@@ -19,6 +19,30 @@ def barGraph(x, y, xLabel, yLabel, title):
     plt.title(title)
     plt.show()
 
+
+def centralTendencies(measure, data):
+    if measure == "mean":
+        print(data.mean())
+    elif measure == "median":
+        print(data.median())
+    elif measure == "mode":
+        print(data.mode())
+
+
+def dispersion(measure, data):
+    if measure == "variance":
+        print(data.var())
+    elif measure == "standardDeviation":
+        print(data.std())
+
+
+def relational(measure, data):
+    if measure == "covariance":
+        print(data.cov())
+    elif measure == "correlation":
+        print(data.corr())
+
+
 def boxPlot(data, yLabel, title):
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -29,10 +53,6 @@ def boxPlot(data, yLabel, title):
     # l_quartile = data.quantile(q=0.25)
     # h_quartile = data.quantile(q=0.75)
 
-    plt.ylabel(yLabel)
-    plt.title(title)
-
-    plt.show()
     # # # annotations (1st Q)
     # # ax.annotate('$1^{st}Q$', xy=(1, l_quartile),
     # # # align
@@ -47,4 +67,10 @@ def boxPlot(data, yLabel, title):
     # # ax.annotate('$3^{rd}Q$', xy=(1, h_quartile),
     # # xytext = (1.12, 7),
     # # arrowprops = dict(facecolor='black', shrink=0.06),)
+
+    plt.ylabel(yLabel)
+    plt.title(title)
+
+    plt.show()
+
 
