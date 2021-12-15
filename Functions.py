@@ -15,14 +15,6 @@ from statsmodels.graphics.tsaplots import plot_pacf, plot_acf
 pd.set_option('display.max_columns', None)
 
 
-def bar_graph(x, y, xLabel, yLabel, title):
-    plt.bar(x, y)
-    plt.xlabel(xLabel)
-    plt.ylabel(yLabel)
-    plt.title(title)
-    plt.show()
-
-
 def central_tendencies(measure, data):
     if measure == "mean":
         print(data.mean())
@@ -37,6 +29,24 @@ def dispersion(measure, data):
         print(data.var())
     elif measure == "std":
         print(data.std())
+
+
+def bar_graph(x, y, xLabel, yLabel, title):
+    plt.bar(x, y)
+    plt.xlabel(xLabel)
+    plt.ylabel(yLabel)
+    plt.title(title)
+    plt.show()
+
+def multi_bar_graph(x, y, y2, y3, y4, xLabel, yLabel, title):
+    plt.bar(x, y)
+    plt.bar(x, y2)
+    plt.bar(x, y3)
+    plt.bar(x, y4)
+    plt.xlabel(xLabel)
+    plt.ylabel(yLabel)
+    plt.title(title)
+    plt.show()
 
 
 def relational(measure, data):

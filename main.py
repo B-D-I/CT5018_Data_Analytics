@@ -3,6 +3,13 @@ import matplotlib.pyplot as plt
 from Data_Variables import *
 
 # TO DO:
+
+# CREATE A TIMESERIES WITH MEAN THEFT ACT CRIMES, WITH UNEMPLOYMENT, EMPLOYMENT, INCOME - then produce a line graph with
+# all variables to see if any relationship
+# NEED KEY FOR THE BAR GRAPH COLORS
+# CREATE A NOMINAL 2014 & 2015 with high / low varibales
+
+
 # ? HYPOTHESIS:
 # H0: Unemployment does not increase theft crime / H1: Unemployment does increase theft crimes /
 # H0: Low earnings does not increase theft crime / H1: Low earnings does increase theft crime / H4: Neither make any difference
@@ -21,13 +28,6 @@ from Data_Variables import *
 # burgTime5.plot()
 # plt.show()
 
-# robbTime1.plot()
-# robbTime2.plot()
-# robbTime3.plot()
-# robbTime4.plot()
-# robbTime5.plot()
-# plt.show()
-
 
 # COVARIANCE & CORRELATION
 
@@ -41,55 +41,6 @@ from Data_Variables import *
 # relational("covariance", crime15)
 # relational("correlation", crime15)
 
-
-
-
-
-
-# THESE PLOTS SUGGEST MOST THEFT ACT CRIMES OCCUR IN AREAS WHERE UNEMPLOYMENT IS AVERAGE AND EARNINGS ARE LOW-AVERAGE
-# sns.set_style('whitegrid')
-# #sns.lmplot("Earnings", "Burglary", crime14EmpCatergorial, hue="Unemployment", fit_reg=False) # DONT USE
-# #sns.lmplot("Earnings", "Robbery", crime14EmpCatergorial, hue="Unemployment", fit_reg=False) # DONT USE
-# #sns.lmplot("Earnings", "Theft", crime14EmpCatergorial, hue="Unemployment", fit_reg=False) # DONT USE
-#
-# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Robbery", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
-# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Burglary", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
-# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Theft", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
-# plt.show()
-
-
-# COMPARING THE TOTAL CRIMES WITH PER CAPITA
-# barGraph(countiesShort, combinedTotal14and15PerCap, "Counties", "Theft Crimes", "Combined Theft Act Offences 2014-2016, per-capita")
-# barGraph(countiesShort, combinedTotal14and15, "Counties", "Theft Crimes", "Combined Theft Act Offences 2014-2016")
-
-# BAR CHART COMPARING DIFFERENCE IN TOTALS FOR YEAR 14 & 15 -- 15 HAS MISSING MONTH??
-# plt.bar(countiesShort, combinedTotal14PerCap, label="2014")
-# plt.bar(countiesShort, combinedTotal15PerCap, label="2015")
-# plt.xlabel("Counties")
-# plt.ylabel("Theft Act Offences")
-# plt.title("Theft Act Offences 2014 & 2016 Per-Capita")
-# plt.legend()
-# plt.show()
-
-
-# BAR CHART WITH BOTH YEARS TOTALS
-# plt.bar(countiesShort, BurglaryTotals14, label="2014")
-# plt.bar(countiesShort, BurglaryTotals15, label="2015")
-# plt.xlabel("Counties")
-# plt.ylabel("Burglaries")
-# plt.title("Burglaries 2014 & 2015 Per-Capita")
-# plt.legend()
-# plt.show()
-
-# BAR CHART OF ALL THREE CRIMES IN EACH BAR (2014)
-# plt.bar(countiesShort, TheftTotals14, label="Theft")
-# plt.bar(countiesShort, BurglaryTotals14, label="Burglary")
-# plt.bar(countiesShort, RobberyTotals14, label="Robbery")
-# plt.xlabel("Counties")
-# plt.ylabel("Crimes")
-# plt.title("Theft Act Offences 2014 Per-Capita")
-# plt.legend()
-# plt.show()
 
 
 # HOW THEFT ACT CRIMES ARE DIVIDED (pie chart)
@@ -115,6 +66,19 @@ from Data_Variables import *
 # plt.title("Theft Act Crimes 2014 Per-Capita")
 # plt.legend()
 # plt.show()
+
+
+
+
+# THESE PLOTS SUGGEST MOST THEFT ACT CRIMES OCCUR IN AREAS WHERE UNEMPLOYMENT IS AVERAGE AND EARNINGS ARE LOW-AVERAGE
+# sns.set_style('whitegrid')
+# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Robbery", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
+# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Burglary", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
+# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Theft", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
+# plt.show()
+
+
+
 
 
 
