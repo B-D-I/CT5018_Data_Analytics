@@ -9,10 +9,13 @@ import statsmodels.api as sm
 import statsmodels.formula.api as smf
 from sklearn.linear_model import LinearRegression
 
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.graphics.tsaplots import plot_pacf, plot_acf
+
 pd.set_option('display.max_columns', None)
 
 
-def barGraph(x, y, xLabel, yLabel, title):
+def bar_graph(x, y, xLabel, yLabel, title):
     plt.bar(x, y)
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
@@ -20,7 +23,7 @@ def barGraph(x, y, xLabel, yLabel, title):
     plt.show()
 
 
-def centralTendencies(measure, data):
+def central_tendencies(measure, data):
     if measure == "mean":
         print(data.mean())
     elif measure == "median":
@@ -30,20 +33,30 @@ def centralTendencies(measure, data):
 
 
 def dispersion(measure, data):
-    if measure == "variance":
+    if measure == "var":
         print(data.var())
-    elif measure == "standardDeviation":
+    elif measure == "std":
         print(data.std())
 
 
 def relational(measure, data):
-    if measure == "covariance":
+    if measure == "cov":
         print(data.cov())
-    elif measure == "correlation":
+    elif measure == "corr":
         print(data.corr())
+        cormatrix = data.corr()
+        cormatrix = cormatrix.stack()
+        cormatrix = cormatrix.reindex(cormatrix.abs().sort_values(ascending=False).index).reset_index()
+        print(cormatrix)
+        scatter_matrix(data, diagonal="kde")
+        plt.figure(figsize=(7, 7))
+        sns.heatmap(data.corr(), annot=True, fmt='.0%')
+        plt.show()
 
+def percentile(data, percent):
+    print(np.percentile(data, percent))
 
-def boxPlot(data, yLabel, title):
+def box_plot(data, yLabel, title):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.boxplot(data)
@@ -70,7 +83,6 @@ def boxPlot(data, yLabel, title):
 
     plt.ylabel(yLabel)
     plt.title(title)
-
     plt.show()
 
 

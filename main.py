@@ -1,33 +1,50 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 
 from Data_Variables import *
 
 # TO DO:
-# TIME SERIES TO PLOT MISSING DATA THEN DO ALL ANALYSIS ON BOTH YEARS
 # ? HYPOTHESIS:
 # H0: Unemployment does not increase theft crime / H1: Unemployment does increase theft crimes /
 # H0: Low earnings does not increase theft crime / H1: Low earnings does increase theft crime / H4: Neither make any difference
 # DATA FLOW DIAGRAM
 
-# covariance suggests unemployment increase robbery and theft / earnings increase robbery
-#print(crime14.cov())
 
-# CORRELATION
-# print(crime14NotPerCap.corr())
-# scatter_matrix(crime14NotPerCap, diagonal="kde")
-# plt.tight_layout()
+#central_tendencies("mean", crime14_area_totals.iloc[:, ])
+#dispersion("std", crime1415_area_totals.iloc[:, ])
+
+
+# line graph crimes 14 - 15 (until Nov)    - this shows all locations are seasonal and within this timeframe follow no trend
+# burgTime1.plot()
+# burgTime2.plot()
+# burgTime3.plot()
+# burgTime4.plot()
+# burgTime5.plot()
 # plt.show()
+
+# robbTime1.plot()
+# robbTime2.plot()
+# robbTime3.plot()
+# robbTime4.plot()
+# robbTime5.plot()
+# plt.show()
+
+
+# COVARIANCE & CORRELATION
+
+# relational("covariance", crime14NotPerCap)
+# relational("correlation", crime14NotPerCap)
 # ^^ APPEARS TO HAVE POSITIVE CORRELATION ONLY WHEN PER CAPITA NOT TAKEN INTO ACCOUNT
 
-# print(crime14.corr())
-# scatter_matrix(crime14, diagonal="kde")
-# plt.tight_layout()
-# plt.show()
-# cormatrix = crime14.corr()
-# cormatrix = cormatrix.stack()
-# cormatrix = cormatrix.reindex(cormatrix.abs().sort_values(ascending=False).index).reset_index()
-#print(cormatrix)
+# relational("covariance", crime14_area_totals)
+# relational("correlation", crime14_area_totals)
+
+# relational("covariance", crime15)
+# relational("correlation", crime15)
+
+
+
+
+
 
 # THESE PLOTS SUGGEST MOST THEFT ACT CRIMES OCCUR IN AREAS WHERE UNEMPLOYMENT IS AVERAGE AND EARNINGS ARE LOW-AVERAGE
 # sns.set_style('whitegrid')
@@ -100,94 +117,20 @@ from Data_Variables import *
 # plt.show()
 
 
-#
-# # TIME SERIES
-# # cols: 1:19 / test rows: 1-23, then provide data for 24, and compare with 25
 
-# # Durham
-# transposeBurgs = crimesTransposed.iloc[1:23, 1]
-# transposeRobbs = crimesTransposed.iloc[28:52, 1]
-# transposeTheft = crimesTransposed.iloc[55:79, 1]
-# transposeComb = crimesTransposed.iloc[82:106, 1]
 
-# transposeBurgsY1 = crimesTransposed.iloc[1:13, 1]
-# transposeRobbsY1 = crimesTransposed.iloc[28:40, 1]
-# transposeTheftY1 = crimesTransposed.iloc[55:67, 1]
-# transposeCombY1 = crimesTransposed.iloc[82:94, 1]
 
-#
-# # ARIMA initial visualisation
-# df = pd.read_csv('CrimesTransposed.csv', index_col=0)
-# df = df.iloc[1:23, 0]
-#
-# # df.index.name=None
-# # df.reset_index(inplace=True)
-# # df.set_index(['index'], inplace=True)
-# # df.columns = ['Durham']
-# # df['Durham'] = df.Durham
-# # df.Durham.plot(title="monthly burglary", fontsize=14)
-# # ^^ Line 53. AttributeError: 'Series' object has no attribute 'Durham' ^^
-# df.plot(title="monthly burglary", fontsize=14)
-# plt.show()
-# # # This shows that it is stationary and seasonal
-#
+
+# Display timeseries rolling mean, std, and autocorrelation
 # timeseries = pd.read_csv('CrimesTransposed.csv', index_col=0)
-# timeseries = timeseries.iloc[1:23, 0]
-# # rolling mean / std - per x months
-# rolmean = timeseries.rolling(12).mean()
-# rolstd = timeseries.rolling(12).std()
-#
-# fig = plt.figure()
-# orig = plt.plot(timeseries, color='blue', label='original')
-# mean = plt.plot(rolmean, color='red', label='Rolling Mean')
-# std = plt.plot(rolstd, color='black', label='Rolling Std')
-#
-# plt.title('Rolling Mean & Standard Deviation ')
-# #plt.show()
+# burglary_timeseries = timeseries.iloc[1:23, 2]
+# robbery_timeseries = timeseries.iloc[28:50, 10]
+# theft_timeseries = timeseries.iloc[55:77, 16]
+# visualiseTimeseries(theft_timeseries, 12, "West Midlands Theft")
 
 
-
-
-
-# df = pd.read_csv("CrimesTransposed.csv", index_col=0)
-# df = df.iloc[0:22, :]
-# df = pd.read_csv("transposeInd.csv", index_col=0)
-# df.index.name=None
-# df.reset_index(inplace=True)
-#
-#
-# # DATA ADJUSTMENT
-# start = datetime.datetime.strptime("2014-01-01", "%Y-%m-%d")
-# date_list = [start + relativedelta(months=x) for x in range(0, 22)]
-# df['index'] = date_list
-# df.set_index(['index'], inplace=True)
-# df.index.name=None
-#
-# df.columns = ['Durham']
-#
-# # NEED SARIMA for seasonal        auto-regression / iteration / moving-averages -> again but with seasonal
-# mod = sm.tsa.statespace.SARIMAX(df, trend='n', order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
-# results = mod.fit()
-#
-# # MAKE FUTURE PREDICTIONS
-# # start predicting from:
-# start = datetime.datetime.strptime("2015-11-01", "%Y-%m-%d")
-# # create amount of months
-# date_list = [start + relativedelta(months=x) for x in range(0, 4)]
-# # future months
-# future = pd.DataFrame(index=date_list, columns=df.columns)
-# # concat the df with future dates (future dates don't have value yet)
-# df = pd.concat([df, future])
-#
-# # start= future row number start -> end
-# df['forecast'] = results.predict(start=22, end=24, dynamic=True)
-# # plot only last 24 entries (12 existing / future)
-# df[['Durham', 'forecast']].iloc[-26:].plot()
-
-#plt.show()
-
-
-
+# time series function
+#time_series(df, "ARMA", "2014-01-01", 22, "2015-11-01", 4, "AREA", "Forecast")
 
 
 
