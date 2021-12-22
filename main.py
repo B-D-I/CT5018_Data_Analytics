@@ -60,8 +60,8 @@ confidence = float(input('confidence interval in %: '))
 
 # run independent t-test
 # test between sample 1 and sample 2 (high / low)
-ind_t_test = stats.ttest_ind(hypothesis_one.value[hypothesis_one.names == 'High-Unemployment/Low-Employment'],
-                             hypothesis_one.value[hypothesis_one.names == 'Low-Unemployment/High-Employment'])
+ind_t_test = stats.ttest_ind(hypothesis_one.Combined[hypothesis_one.Areas == 'High-Unemployment/Low-Employment'],
+                             hypothesis_one.Combined[hypothesis_one.Areas == 'Low-Unemployment/High-Employment'])
 
 # T and P values
 tvalue = ind_t_test[0]
