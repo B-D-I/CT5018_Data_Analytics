@@ -1,89 +1,89 @@
-import matplotlib.pyplot as plt
 
-from Data_Variables import *
-
-# TO DO:
-
-# CREATE A TIMESERIES WITH MEAN THEFT ACT CRIMES, WITH UNEMPLOYMENT, EMPLOYMENT, INCOME - then produce a line graph with
-# all variables to see if any relationship
-# NEED KEY FOR THE BAR GRAPH COLORS
-# CREATE A NOMINAL 2014 & 2015 with high / low varibales
+from Time_Series_Functions import *
 
 
-# ? HYPOTHESIS:
-# H0: Unemployment does not increase theft crime / H1: Unemployment does increase theft crimes /
-# H0: Low earnings does not increase theft crime / H1: Low earnings does increase theft crime / H4: Neither make any difference
-# DATA FLOW DIAGRAM
+# # # #  DESCRIPTIVE # # # #
+# central_tendencies("median", crime1415_area_totals.iloc[:, ])
+# dispersion("std", crime1415_area_totals.iloc[:, ])
 
 
-#central_tendencies("mean", crime14_area_totals.iloc[:, ])
-#dispersion("std", crime1415_area_totals.iloc[:, ])
+# BAR GRAPH
+# multi_bar_graph(countiesShort, mean_combined, "Combined", mean_thefts, "Theft", mean_burglaries, "Burglary",
+#               mean_robberies, "Robbery", "Locations", "All Crimes", "2014-2015 Mean Combined Theft Crimes")
 
 
-# line graph crimes 14 - 15 (until Nov)    - this shows all locations are seasonal and within this timeframe follow no trend
-# burgTime1.plot()
-# burgTime2.plot()
-# burgTime3.plot()
-# burgTime4.plot()
-# burgTime5.plot()
-# plt.show()
-
-
-# COVARIANCE & CORRELATION
-
-# relational("covariance", crime14NotPerCap)
-# relational("correlation", crime14NotPerCap)
-# ^^ APPEARS TO HAVE POSITIVE CORRELATION ONLY WHEN PER CAPITA NOT TAKEN INTO ACCOUNT
-
-# relational("covariance", crime14_area_totals)
-# relational("correlation", crime14_area_totals)
-
-# relational("covariance", crime15)
-# relational("correlation", crime15)
-
+# COMPARE PER CAPITA
+# non_per_cap_total_crime = allData.iloc[74:94, 30]
+# per_cap_total_crime = allDataNew.iloc[83:103, 35]
+# multi_bar_graph(countiesShort, non_per_cap_total_crime, "Not Per-capita",
+#                 per_cap_total_crime, "Per-capita", "Locations", "All Crimes",
+#                 "2014-2015 Theft-Act Crimes Per Capita Comparison")
 
 
 # HOW THEFT ACT CRIMES ARE DIVIDED (pie chart)
-# total burglary for all counties 14&15 = 1768
-# total robbery for all counties 14&15 = 40
-# total theft for all counties 14&15 = 11672
-# crimes = (1768, 40, 11672)
+# crimes = (20716, 7977, 129653)
 # crimeLabels = ["Burglary", "Robbery", "Theft"]
 # plt.pie(crimes, labels=crimeLabels)
 # plt.show()
 
-# DISPLAY BOXPLOT TO SEE MEDIAN, AND HIGHER / LOW QUARTILES
-# unemployment years:
-#boxPlot(allUnemp, "Unemployment", "Unemployment Per Capita")
-#boxPlot(income14, "Income", "Monthly Income")
 
-# burglary 2014 and 2015 boxplot:
-# boxPlot(BurglaryTotals14, "Crime Amount", "Burglary Per Capita")
-# boxPlot(RobberyTotals14, "Crime Amount", "Robbery Per Capita")
-# boxPlot(TheftTotals14, "Crime Amount", "Theft Per Capita")
-# plt.xlabel("Counties")
-# plt.ylabel("")
-# plt.title("Theft Act Crimes 2014 Per-Capita")
-# plt.legend()
-# plt.show()
-
-
-
-
-# THESE PLOTS SUGGEST MOST THEFT ACT CRIMES OCCUR IN AREAS WHERE UNEMPLOYMENT IS AVERAGE AND EARNINGS ARE LOW-AVERAGE
+# Line graphs
 # sns.set_style('whitegrid')
-# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Robbery", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
-# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Burglary", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
-# sns.lmplot("Earnings", "Unemployment", crime14CrimeCat, hue="Theft", fit_reg=False, palette=dict(High="r", Medium="m", Low="g"))
+# sns.lmplot("Earnings", "Employment", crime1415_crimeNominal, hue="Measurement of Theft Crime ", fit_reg=False,
+# palette=dict(High="r", Medium="m", Low="g"))
+# sns.lmplot("Earnings", "Unemployment", crime1415_crimeNominal, hue="Measurement of Theft Crime ", fit_reg=False,
+# palette=dict(High="r", Medium="m", Low="g"))
 # plt.show()
 
 
+# COVARIANCE & CORRELATION
+# relational("covariance", crime14NotPerCap)
+# relational("correlation", crime14NotPerCap)
+# ^^ APPEARS TO HAVE POSITIVE CORRELATION ONLY WHEN PER CAPITA NOT TAKEN INTO ACCOUNT
+
+# relational("cov", crime1415_area_totals)
+# relational("corr", crime1415_area_totals)
+
+
+# HISTOGRAMS FOR SKEW AND TRANSFORMATION
+# print(skew(combined, bias=False))
+# plt.hist(combined)
+# plt.hist(combined_sqrt)
+# plt.hist(combined_log)
+# plt.show()
+
+
+# HYPOTHESIS
+
+# input confidence value % to check, e.g. 95
+confidence = float(input('confidence interval in %: '))
+
+# run independent t-test
+# test between sample 1 and sample 2 (high / low)
+ind_t_test = stats.ttest_ind(hypothesis_one.value[hypothesis_one.names == 'High-Unemployment/Low-Employment'],
+                             hypothesis_one.value[hypothesis_one.names == 'Low-Unemployment/High-Employment'])
+
+# T and P values
+tvalue = ind_t_test[0]
+pvalue = ind_t_test[1]
+
+print('results of independent t-test are: \n\tt-value = {:4.3f}\n\tp-value = {:4.3f}'.format(tvalue, pvalue))
+
+# check confidence
+if(pvalue > (1 - confidence/100)):
+    print('\nH0 => u1 - u2 = 0\n\t Confidence: '+str(confidence), '%')
+else:
+    print('\nH1 => u1 - u2 !=0\n\t Confidence: '+str(confidence), '%')
 
 
 
 
 
 
+
+
+
+# # # # TIME SERIES # # # #
 
 # Display timeseries rolling mean, std, and autocorrelation
 # timeseries = pd.read_csv('CrimesTransposed.csv', index_col=0)

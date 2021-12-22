@@ -1,5 +1,6 @@
 from Functions import *
 
+
 def visualise_timeseries(data, month_amount, title_var):
     # rolling mean / std - per x months
     rolling_mean = data.rolling(month_amount).mean()
@@ -13,9 +14,6 @@ def visualise_timeseries(data, month_amount, title_var):
     # display ACF
     plot_acf(data)
     plt.show()
-
-
-
 
 
 def time_series(data, regression_type, data_start_date, data_months_amount, predict_start_date,

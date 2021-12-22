@@ -1,18 +1,4 @@
-import pandas as pd
-from pandas.plotting import scatter_matrix
-import matplotlib.pyplot as plt
-import numpy as np
-import datetime
-from dateutil.relativedelta import relativedelta
-import seaborn as sns
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
-from sklearn.linear_model import LinearRegression
-
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.graphics.tsaplots import plot_pacf, plot_acf
-
-pd.set_option('display.max_columns', None)
+from Data_Variables import *
 
 
 def central_tendencies(measure, data):
@@ -38,13 +24,15 @@ def bar_graph(x, y, xLabel, yLabel, title):
     plt.title(title)
     plt.show()
 
-def multi_bar_graph(x, y, y2, y3, y4, xLabel, yLabel, title):
-    plt.bar(x, y)
-    plt.bar(x, y2)
-    plt.bar(x, y3)
-    plt.bar(x, y4)
+
+def multi_bar_graph(x, y, bar1Title, y2, bar2Title, y3, bar3Title, y4, bar4Title, xLabel, yLabel, title):
+    bar1 = plt.bar(x, y, color="#999999")
+    bar2 = plt.bar(x, y2, color="#46a41e")
+    bar3 = plt.bar(x, y3, color="#2986cc")
+    bar4 = plt.bar(x, y4, color="#e97c0b")
     plt.xlabel(xLabel)
     plt.ylabel(yLabel)
+    plt.legend((bar1, bar2, bar3, bar4), (bar1Title, bar2Title, bar3Title, bar4Title))
     plt.title(title)
     plt.show()
 
@@ -63,34 +51,15 @@ def relational(measure, data):
         sns.heatmap(data.corr(), annot=True, fmt='.0%')
         plt.show()
 
+
 def percentile(data, percent):
     print(np.percentile(data, percent))
+
 
 def box_plot(data, yLabel, title):
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.boxplot(data)
-    # iMedian = data.median()
-    # iMax = data.max()
-    # iMin = data.min()
-    # l_quartile = data.quantile(q=0.25)
-    # h_quartile = data.quantile(q=0.75)
-
-    # # # annotations (1st Q)
-    # # ax.annotate('$1^{st}Q$', xy=(1, l_quartile),
-    # # # align
-    # # xytext = (3, 0.2),
-    # # # arrow
-    # # arrowprops = dict(facecolor='red', shrink=0.01),)
-    # # #
-    # # ax.annotate('$2^{nd}Q$', xy=(1, iMedian),
-    # # xytext = (1.12, 4),
-    # # arrowprops = dict(facecolor='blue', shrink=0.06),)
-    # # #
-    # # ax.annotate('$3^{rd}Q$', xy=(1, h_quartile),
-    # # xytext = (1.12, 7),
-    # # arrowprops = dict(facecolor='black', shrink=0.06),)
-
+    ax.boxplot(data, vert=False)
     plt.ylabel(yLabel)
     plt.title(title)
     plt.show()

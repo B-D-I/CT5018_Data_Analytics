@@ -1,36 +1,41 @@
-import numpy as np
+
 import pandas as pd
+from pandas.plotting import scatter_matrix
+import matplotlib.pyplot as plt
+import numpy as np
+import datetime
+from dateutil.relativedelta import relativedelta
+import seaborn as sns
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from scipy import stats
+from math import sqrt
+from scipy.stats import t
+from scipy.stats import skew
+from scipy.stats import ttest_1samp
+from sklearn.linear_model import LinearRegression
 
-from Time_Series_Functions import *
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.graphics.tsaplots import plot_pacf, plot_acf
 
-allData = pd.read_excel("AllData.xlsx", na_values="")
-crimesTransposed = pd.read_csv("CrimesTransposed.csv", na_values="")
+pd.set_option('display.max_columns', None)
 
-allDataNew = pd.read_excel("AllDataUpdateCompletePerCap.xlsx", na_values="")
+allData = pd.read_excel("./DataSheets/AllData.xlsx", na_values="")
+crimesTransposed = pd.read_csv("./DataSheets/CrimesTransposed.csv", na_values="")
+# time series
+Transposed = pd.read_csv('./DataSheets/CrimesTransposed.csv', index_col=0)
 
-crime14NotPerCap = pd.read_csv("2014(notPerCapita).csv", na_values="")
-crime14_area_totals = pd.read_csv("2014.csv", na_values="")
-crime14EmpCategorial = pd.read_csv("crime14EmpCat.csv", na_values="")
-crime14CrimeCat = pd.read_csv("crime14CrimeCat.csv", na_values="")
-
-crime15_area_totals = pd.read_csv("2015.csv", na_values="")
-crime1415_area_totals = pd.read_csv("2014&2015.csv", na_values="")
-
-
-# for missing month time-series analysis:
-df = pd.read_csv("transposeInd.csv", index_col=0)
-df.index.name = None
-df.reset_index(inplace=True)
-
-# COUNTIES (excluding National)
-counties = allData.iloc[2:22, 0]
-countiesShort = ["Durh", "NYrk", "SYrk", "GMan", "Ches", "Lanc", "Derb", "Leic", "Linc", "Warw", "WMid", "Essx", "Hert",
-                 "Suff", "Lond", "TVal", "Hamp", "Kent", "Glos", "Dors"]
-
+allDataNew = pd.read_excel("./DataSheets/AllDataUpdateCompletePerCap.xlsx", na_values="")
 # AllDataNew:
 # BURGLARY: row 2:22 | ROBBERY: row 29:49 | THEFT: row 56:76
 # 2014: column 8:20 | 2015: column 20:32
 
+
+crime14NotPerCap = pd.read_csv("./DataSheets/2014(notPerCapita).csv", na_values="")
+crime14_area_totals = pd.read_csv("./DataSheets/2014.csv", na_values="")
+crime15_area_totals = pd.read_csv("./DataSheets/2015.csv", na_values="")
+
+crime1415_area_totals = pd.read_csv("./DataSheets/2014&2015.csv", na_values="")
 # 2014 & 2015
 mean_unemployment = crime1415_area_totals.iloc[:, 1]
 mean_employment = crime1415_area_totals.iloc[:, 2]
@@ -41,56 +46,39 @@ mean_thefts = crime1415_area_totals.iloc[:, 6]
 mean_combined = crime1415_area_totals.iloc[:, 7]
 
 
-# BAR GRAPH
-multi_bar_graph(countiesShort, mean_combined, mean_thefts, mean_burglaries, mean_robberies, "Locations", "All Crimes", "2014-2015 Mean Combined Theft Crimes")
-# bar_graph(countiesShort, mean_robberies, "Locations", "Robberies", "2014-2015 Mean Robberies")
-# bar_graph(countiesShort, mean_burglaries, "Locations", "Burglaries", "2014-2015 Mean Burglaries")
-# bar_graph(countiesShort, mean_thefts, "Locations", "Thefts", "2014-2015 Mean Thefts")
+crime1415_employmentNominal = pd.read_csv("./DataSheets/2014&15EmployNominal.csv", na_values="")
+crime1415_crimeNominal = pd.read_csv("./DataSheets/2014&15CrimeNominal.csv", na_values="")
 
-# COMPARE PER CAPITA
-non_per_cap_total_crime = allData.iloc[74:94, 30]
-per_cap_total_crime = allDataNew.iloc[83:103, 35]
-# multi_bar_graph(countiesShort, non_per_cap_total_crime, non_per_cap_total_crime, per_cap_total_crime,
-#                 per_cap_total_crime, "Locations", "All Crimes", "2014-2015 Theft Crimes Per Capita Comparison")
+location_timeseries = pd.read_csv("./DataSheets/locationFullTimeSeries.csv", index_col=0)
+location_timeseries.index.name = None
+location_timeseries.reset_index(inplace=True)
+dorset_timeseries = location_timeseries.iloc[:, 1:6]
 
+# for missing month time-series analysis:
+df = pd.read_csv("./DataSheets/transposeInd.csv", index_col=0)
+df.index.name = None
+df.reset_index(inplace=True)
 
-
-
-
-
-
-
+# COUNTIES (excluding National)
+counties = allData.iloc[2:22, 0]
+countiesShort = ["Durh", "NYrk", "SYrk", "GMan", "Ches", "Lanc", "Derb", "Leic", "Linc", "Warw", "WMid", "Essx", "Hert",
+                 "Suff", "Lond", "TVal", "Hamp", "Kent", "Glos", "Dors"]
 
 
+burglary = crime1415_area_totals.iloc[:, 4]
+robbery = crime1415_area_totals.iloc[:, 5]
+theft = crime1415_area_totals.iloc[:, 6]
+combined = crime1415_area_totals.iloc[:, 7]
 
+# SQUARE ROOT AND NATURAL LOG TRANSFORMATIONS
+combined_sqrt = np.sqrt(combined)
+combined_log = np.log(combined)
+burglary_sqrt = np.sqrt(burglary)
+burglary_log = np.log(burglary)
+robbery_sqrt = np.sqrt(robbery)
+robbery_log = np.log(robbery)
+theft_sqrt = np.sqrt(theft)
+theft_log = np.log(theft)
 
-
-
-
-
-
-# total theft act crimes 14&15 with per-capita
-combinedTotal14PerCap = allData.iloc[74:99, 60]
-combinedTotal15PerCap = allData.iloc[74:99, 61]
-combinedTotal14and15PerCap = allData.iloc[74:99, 62]
-# total theft crimes 14&15
-combinedTotal14and15 = allData.iloc[74:99, 30]
-
-
-# UNEMPLOYMENT COLUMNS (per capita)
-unemp14 = allData.iloc[2:22, 34]
-meanUnemp14 = allData.iloc[23, 34]
-unemp15 = allData.iloc[2:22, 35]
-unempBothAverage = allData.iloc[2:22, 72]
-allUnemp = [unemp14, unemp15, unempBothAverage]
-
-
-
-
-Transposed = pd.read_csv('CrimesTransposed.csv', index_col=0)
-burgTime1 = Transposed.iloc[1:23, 0:4]
-burgTime2 = Transposed.iloc[1:23, 4:8]
-burgTime3 = Transposed.iloc[1:23, 8:12]
-burgTime4 = Transposed.iloc[1:23, 12:16]
-burgTime5 = Transposed.iloc[1:23, 16:20]
-
+# HYPOTHESIS
+hypothesis_one = pd.read_csv("./DataSheets/Hypothesis.csv")
