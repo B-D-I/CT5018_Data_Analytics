@@ -82,3 +82,6 @@ theft_log = np.log(theft)
 
 # HYPOTHESIS
 hypothesis_one = pd.read_csv("./DataSheets/Hypothesis.csv")
+
+# Linear Regression
+regression_data = pd.read_csv("./DataSheets/linearRegression.csv", index_col=0)

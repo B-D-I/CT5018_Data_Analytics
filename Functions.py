@@ -65,3 +65,49 @@ def box_plot(data, yLabel, title):
     plt.show()
 
 
+# # # #  DESCRIPTIVE # # # #
+
+# central_tendencies("median", crime1415_area_totals.iloc[:, ])
+# dispersion("std", crime1415_area_totals.iloc[:, ])
+
+
+# BAR GRAPH
+# multi_bar_graph(countiesShort, mean_combined, "Combined", mean_thefts, "Theft", mean_burglaries, "Burglary",
+#               mean_robberies, "Robbery", "Locations", "All Crimes", "2014-2015 Mean Combined Theft Crimes")
+
+
+# COMPARE PER CAPITA
+# non_per_cap_total_crime = allData.iloc[74:94, 30]
+# per_cap_total_crime = allDataNew.iloc[83:103, 35]
+# multi_bar_graph(countiesShort, non_per_cap_total_crime, "Not Per-capita",
+#                 per_cap_total_crime, "Per-capita", "Locations", "All Crimes",
+#                 "2014-2015 Theft-Act Crimes Per Capita Comparison")
+
+
+# HOW THEFT ACT CRIMES ARE DIVIDED (pie chart)
+# crimes = (20716, 7977, 129653)
+# crimeLabels = ["Burglary", "Robbery", "Theft"]
+# plt.pie(crimes, labels=crimeLabels)
+# plt.show()
+
+
+# LINE GRAPHS
+# sns.set_style('whitegrid')
+# sns.lmplot("Earnings", "Employment", crime1415_crimeNominal, hue="Measurement of Theft Crime ", fit_reg=False,
+# palette=dict(High="r", Medium="m", Low="g"))
+# sns.lmplot("Earnings", "Unemployment", crime1415_crimeNominal, hue="Measurement of Theft Crime ", fit_reg=False,
+# palette=dict(High="r", Medium="m", Low="g"))
+# plt.show()
+
+
+# COVARIANCE & CORRELATION
+# relational("cov", crime1415_area_totals)
+# relational("corr", crime1415_area_totals)
+
+
+# HISTOGRAMS FOR SKEW AND TRANSFORMATION
+# print(skew(combined, bias=False))
+# plt.hist(combined)
+# plt.hist(combined_sqrt)
+# plt.hist(combined_sqrt)
+# plt.show()
