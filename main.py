@@ -1,52 +1,36 @@
-import statistics
 
-import Data_Variables
-from Time_Series_Functions import *
-from Hypothesis import *
+from Functions import *
 
-
-
-sales_figs, axes = plt.subplots(1, 3, sharey=True)
-
-regression_data.plot(kind='scatter', x='Employment', y='Robbery', ax=axes[0], figsize=(16, 8))
-regression_data.plot(kind='scatter', x='Unemployment', y='Robbery', ax=axes[1])
-regression_data.plot(kind='scatter', x='Income', y='Robbery', ax=axes[2])
-
-#plt.show()
-
-# lrm = smf.ols(formula='Robbery ~ Employment', data=regression_data).fit()
+# Classification
+# Y = encoded_data.iloc[:,7]
+# X = encoded_data.iloc[:,0:7]
+# X.columns = ['Unemployment', 'Employment', "Income", "Burglary", "Robbery", "Theft", "Combined"]
 #
-# print(lrm.params)
-
-# # testing the model
-# X_test_new = pd.DataFrame({'unemployment': [1000]})   # for every 1000 per 100k unemployed, get x crime
-# print(X_test_new)
-# prediction = lrm.predict(X_test_new)
-# print(prediction)
-
-# robss = [0.674, 0.893, 0.869, 0.729]
-# print(statistics.mean(robss))
-
-# P -VALUES
-# print(lrm.pvalues)
+# model = GaussianNB()
+# model.fit(X, Y)
+# prediction_test = [1, 2, 2, 2, 2, 2, 2]
+# predicted_class = model.predict(np.reshape(prediction_test,[1,-1]))
+# print("predicted class: ", predicted_class)
 
 
+# Association Rules
+print(encoded_data.head())
+# Building the model
+frq_items = apriori(encoded_data, min_support=0.1, use_colnames=True)
+# Collecting the rules
+rules = association_rules(frq_items, metric="lift", min_threshold=1)
+rules = rules.sort_values(['confidence', 'lift'], ascending=[False, False])
+print(rules.head())
 
-# MULTIPLE LINEAR REGRESSION
+# Filtering the rules
+print(rules[(rules['confidence'] > 0.85) & (rules['lift'] > 1.5)])
 
-feature_cols = ['Unemployment', 'Employment']
+# Cleaning the results
+rules_filtered = rules[['antecedents', 'consequents', 'lift']]
+print(rules_filtered)
 
-X = regression_data[feature_cols]
-Y = regression_data.Robbery
-
-lr_model = LinearRegression()
-lr_model.fit(X, Y)
-
-print(lr_model.intercept_)  # B0   - if no change in employment, unemployment, income - this is crime amount
-print(lr_model.coef_)   # B1, B2, B3 - employment and income decrease as crime increases, unemployment increas wth crime
-
-# testing the model
-X_test_new = pd.DataFrame({'Unemployment': [3419], 'Employment': [81195]})
-print(X_test_new)
-prediction = lr_model.predict(X_test_new)
-print(prediction)   # if all feature cols increase this will be the crime amount
+# Filtering the results
+# consequents = High Combined Crime
+rules_filtered = rules[['antecedents', 'consequents', 'support', 'confidence','lift']]
+combined_crime_rules = rules_filtered[rules_filtered.consequents == {'High-Combined'}]
+print(combined_crime_rules)

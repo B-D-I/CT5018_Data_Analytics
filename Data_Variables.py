@@ -1,5 +1,6 @@
 
 import pandas as pd
+import statistics
 from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,9 +15,12 @@ from scipy.stats import t
 from scipy.stats import skew
 from scipy.stats import ttest_1samp
 from sklearn.linear_model import LinearRegression
-
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.graphics.tsaplots import plot_pacf, plot_acf
+from sklearn.naive_bayes import GaussianNB
+from mlxtend.frequent_patterns import apriori, association_rules
 
 pd.set_option('display.max_columns', None)
 
@@ -85,3 +89,6 @@ hypothesis_one = pd.read_csv("./DataSheets/Hypothesis.csv")
 
 # Linear Regression
 regression_data = pd.read_csv("./DataSheets/linearRegression.csv", index_col=0)
+
+# Classification
+encoded_data = pd.read_csv("./DataSheets/dataEncoded.csv")
