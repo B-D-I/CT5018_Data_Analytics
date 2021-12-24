@@ -1,4 +1,4 @@
-from Functions import *
+from Descriptive import *
 
 
 def visualise_timeseries(data, month_amount, title_var):
@@ -64,12 +64,12 @@ def time_series(data, regression_type, data_start_date, data_months_amount, pred
 # # # # TIME SERIES # # # #
 
 # Display timeseries rolling mean, std, and autocorrelation
-# timeseries = pd.read_csv('CrimesTransposed.csv', index_col=0)
-# burglary_timeseries = timeseries.iloc[1:23, 2]
-# robbery_timeseries = timeseries.iloc[28:50, 10]
-# theft_timeseries = timeseries.iloc[55:77, 16]
+timeseries = pd.read_csv('CrimesTransposed.csv', index_col=0)
+burglary_timeseries = timeseries.iloc[1:23, 2]
+robbery_timeseries = timeseries.iloc[28:50, 10]
+theft_timeseries = timeseries.iloc[55:77, 16]
 # visualiseTimeseries(theft_timeseries, 12, "West Midlands Theft")
 
 
 # time series function
-#time_series(df, "ARMA", "2014-01-01", 22, "2015-11-01", 4, "AREA", "Forecast")
+time_series(df, "ARMA", "2014-01-01", 22, "2015-11-01", 4, "AREA", "Forecast")

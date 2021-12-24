@@ -90,5 +90,9 @@ hypothesis_one = pd.read_csv("./DataSheets/Hypothesis.csv")
 # Linear Regression
 regression_data = pd.read_csv("./DataSheets/linearRegression.csv", index_col=0)
 
-# Classification
+# Association Rules
 encoded_data = pd.read_csv("./DataSheets/dataEncoded.csv")
+
+# Classification
+classified_data = pd.read_csv("./DataSheets/EncodedClassification.csv")
+
