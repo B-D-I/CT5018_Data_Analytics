@@ -1,4 +1,4 @@
-from Descriptive import *
+from Data_Variables import *
 
 sales_figs, axes = plt.subplots(1, 3, sharey=True)
 
